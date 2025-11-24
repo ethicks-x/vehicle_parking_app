@@ -119,7 +119,8 @@ Generated bash
 cd frontend
 
 # 2. Install the required Node.js packages
-npm install
+# also can use any package manager like npm, pnpm etc.
+bun install
 ```
 
 ## Running the Application
