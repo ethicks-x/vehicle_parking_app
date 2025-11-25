@@ -1,0 +1,147 @@
+
+==================================================
+SIMULATING EMAIL SEND
+TO: heatherbradford@example.org
+SUBJECT: Your Parking History Export is Ready
+BODY:
+    Hi Crystal Cook,
+    
+    Please find your booking history attached.
+    
+    CSV Data:
+    
+    Booking ID,Vehicle Number,Lot Name,Booking Time,Parking Time,Release Time,Total Cost ($)
+    245,33M TF8,Wanda Garden Garage,2025-07-21 21:22:09.564963,,,
+    260,ODY 177,Cody Coves Garage,2025-07-21 21:10:09.564963,,,
+    266,BSR 124,Michael Run Garage,2025-07-21 20:59:09.564963,,,
+    183,7-38426V,Martinez Inlet Garage,2025-07-21 20:51:09.564963,2025-07-21 21:18:09.564963,,
+    190,7GA 954,Scott Garden Garage,2025-07-21 20:50:09.564963,2025-07-21 21:01:09.564963,,
+    259,Z91 8KX,Stacy Via Garage,2025-07-21 20:42:09.564963,,,
+    212,TTH 380,Wanda Garden Garage,2025-07-21 20:16:09.564963,2025-07-21 20:25:09.564963,,
+    50,BNY-3394,Martinez Inlet Garage,2025-06-11 14:47:20.564963,2025-06-11 15:01:20.564963,2025-06-11 18:01:20.564963,11.73
+    52,XLP3774,Stacy Via Garage,2025-05-24 08:02:52.564963,2025-05-24 08:18:52.564963,2025-05-24 14:18:52.564963,30.48
+    51,15V•377,Stacy Via Garage,2025-05-01 02:25:56.564963,2025-05-01 02:53:56.564963,2025-05-01 08:53:56.564963,30.48
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+
+==================================================
+SIMULATING EMAIL SEND
+TO: arif@nexul.in
+SUBJECT: We Miss You at Vehicle Parking System!
+BODY:
+    Hi Arif Sardar,
+    
+    It's been a while! Don't forget to book your spot with us for a hassle-free parking experience.
+    
+    Best,
+    The VPS Team
+==================================================
+
+
+ 
