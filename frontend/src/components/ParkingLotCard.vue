@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { ParkingLot, ParkingSpot } from '@/types' // We will create this type file
+
+import type { ParkingLot, ParkingSpot } from '@/types'
 import { BCard, BCardHeader, BCardBody } from 'bootstrap-vue-next'
 
 defineProps({
@@ -142,4 +143,4 @@ defineEmits<{
   transform: scale(1.1);
 }
 </style>
- 
+

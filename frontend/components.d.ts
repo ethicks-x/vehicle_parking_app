@@ -28,5 +28,3 @@ declare module 'vue' {
     StatCard: typeof import('./src/components/StatCard.vue')['default']
   }
 }
-
- 

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { BCard } from 'bootstrap-vue-next'
 defineProps<{
   icon: string
@@ -53,4 +54,4 @@ defineProps<{
   color: var(--text-color-muted);
 }
 </style>
- 
+

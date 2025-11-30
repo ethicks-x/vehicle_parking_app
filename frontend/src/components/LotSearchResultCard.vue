@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { computed } from 'vue'
 import type { ParkingLot } from '@/types'
 import {
@@ -125,4 +126,4 @@ const availability = computed<{
   opacity: 0.5;
 }
 </style>
- 
+

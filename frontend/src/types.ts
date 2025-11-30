@@ -71,3 +71,4 @@ export interface AdminSummaryData {
   topLots: { id: number; name: string; booking_count: number }[]
   occupancyByLot: { name: string; occupied: number; available: number }[]
 }
+

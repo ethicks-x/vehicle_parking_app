@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { ref, onMounted, computed } from 'vue'
 import type { UserSummaryData } from '@/types'
 import axios from 'axios'
@@ -168,4 +169,4 @@ const dayOfWeekChartData = computed(() => {
   margin-bottom: 1.5rem;
 }
 </style>
- 
+

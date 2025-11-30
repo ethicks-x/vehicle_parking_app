@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { ref, onMounted, computed } from 'vue'
 import type { AdminSummaryData } from '@/types'
 import axios from 'axios'
@@ -218,4 +219,4 @@ const occupancyByLotChartData = computed(() => {
   border-top-right-radius: 0;
 }
 </style>
- 
+

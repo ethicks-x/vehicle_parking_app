@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { ref, onMounted, computed, watch, reactive } from 'vue'
 import type { Booking } from '@/types'
 import { BCard, BCardBody, BButton, BSpinner, BAlert } from 'bootstrap-vue-next'
@@ -495,4 +496,4 @@ const handleExport = async () => {
   transform: scale(0.9);
 }
 </style>
- 
+

@@ -12,13 +12,10 @@ import NavBar from '@/components/NavBar.vue'
         <component :is="Component" :key="route.path" />
       </transition>
     </router-view>
-    <!-- <RouterView /> -->
   </main>
 </template>
 
 <style>
-/* Ensure you have Bootstrap Icons installed or linked for the icon */
-/* npm install bootstrap-icons */
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import '@/assets/main.css';
 
@@ -49,7 +46,6 @@ body {
   padding-top: 65px; /* Adjust based on your navbar height */
   overflow: hidden;
   color: var(--text-color);
-
   color-scheme: dark;
 }
 
@@ -88,7 +84,7 @@ body {
   background-image: linear-gradient(
     180deg,
     #25e8b5 0%,
-    /* A slightly brighter version of the highlight */ #2ecc71 99%
+    #2ecc71 99%     /* A slightly brighter version of the highlight */
   );
 }
 

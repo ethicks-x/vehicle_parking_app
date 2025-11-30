@@ -90,11 +90,8 @@ Follow these steps to get the project running locally.
 cd backend
 
 # 2. Create and activate a Python virtual environment
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 
 # 3. Install the required Python packages
 pip install -r requirements.txt

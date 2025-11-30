@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { ref, onMounted, computed } from 'vue'
 import type { ParkingLot } from '@/types'
 import LotSearchResultCard from '@/components/LotSearchResultCard.vue'
@@ -314,4 +315,4 @@ hr {
   position: absolute;
 }
 </style>
- 
+

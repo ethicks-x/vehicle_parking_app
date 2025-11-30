@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { ref, reactive, watch, computed } from 'vue'
 import type { ParkingLot } from '@/types'
 import {
@@ -15,20 +16,17 @@ import {
 // Define the shape of the data this form handles
 export type LotFormData = Omit<ParkingLot, 'id' | 'occupied_spots_count' | 'spots'>
 
-// PROPS
 interface Props {
   lotData: ParkingLot | null
   isLoading: boolean
 }
 const props = defineProps<Props>()
 
-// EMITS
 const emit = defineEmits<{
   (e: 'submit', formData: LotFormData, id: number | null): void
   (e: 'cancel'): void
 }>()
 
-// STATE
 const initialFormState: LotFormData = {
   name: '',
   address: '',
@@ -194,4 +192,4 @@ const handleSubmit = (event: Event) => {
   color: var(--text-color);
 }
 </style>
- 
+

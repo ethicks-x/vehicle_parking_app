@@ -6,10 +6,6 @@ from .db import db  # Import the 'db' instance from db.py
 
 
 class User(db.Model):
-    """
-    User model for storing user details and credentials.
-    Includes both regular users and the admin.
-    """
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,14 +25,12 @@ class User(db.Model):
         'Booking', backref='user', lazy=True, cascade="all, delete-orphan")
 
     def set_password(self, password):
-        """Hashes the password and stores it."""
         # We use current_app to access the bcrypt instance configured in app.py
         bcrypt = current_app.config['BCRYPT']
         self.password_hash = bcrypt.generate_password_hash(
             password).decode('utf-8')
 
     def check_password(self, password):
-        """Checks if the provided password matches the stored hash."""
         bcrypt = current_app.config['BCRYPT']
         return bcrypt.check_password_hash(self.password_hash, password)
 
@@ -45,9 +39,6 @@ class User(db.Model):
 
 
 class ParkingLot(db.Model):
-    """
-    ParkingLot model represents a physical parking facility.
-    """
     __tablename__ = 'parking_lots'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -67,9 +58,6 @@ class ParkingLot(db.Model):
 
 
 class ParkingSpot(db.Model):
-    """
-    ParkingSpot model represents an individual spot within a ParkingLot.
-    """
     __tablename__ = 'parking_spots'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -87,10 +75,6 @@ class ParkingSpot(db.Model):
 
 
 class Booking(db.Model):
-    """
-    Booking model represents a reservation of a parking spot by a user.
-    This corresponds to the "Reserve parking spot" terminology.
-    """
     __tablename__ = 'bookings'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -108,4 +92,4 @@ class Booking(db.Model):
 
     def __repr__(self):
         return f'<Booking {self.id} by User {self.user_id} for Spot {self.spot_id}>'
- 
+

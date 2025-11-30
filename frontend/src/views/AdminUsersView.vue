@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import { ref, onMounted } from 'vue'
 import type { RegisteredUser } from '@/types'
 import axios from 'axios'
@@ -199,4 +200,4 @@ const fields = [
   text-align: end;
 }
 </style>
- 
+

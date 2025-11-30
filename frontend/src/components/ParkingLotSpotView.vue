@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import { type ParkingLot, type ParkingSpot } from '@/types'
 import axios from 'axios'
 import { computed } from 'vue'
@@ -107,7 +108,6 @@ watch(
   (newVal) => {
     if (!newVal) {
       showSpotDetails.value = false
-      // bookingDetails.value = null // Reset details when view is closed
     }
   },
 )
@@ -249,4 +249,4 @@ const formatDateTime = (isoString: string) => {
   opacity: 1;
 }
 </style>
- 
+

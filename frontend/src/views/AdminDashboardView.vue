@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import type { ParkingLot, ParkingSpot } from '@/types'
@@ -267,4 +268,4 @@ const confirmSpotDelete = async (spotId: number) => {
   position: absolute;
 }
 </style>
- 
+

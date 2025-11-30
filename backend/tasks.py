@@ -6,10 +6,8 @@ import csv
 import io  # Used to generate CSV in-memory
 import os
 
-
-email_file_path = os.getenv('EMAIL_FILE_PATH', 'emails.txt')
-
 # This is a placeholder for a real email sending function
+email_file_path = os.getenv('EMAIL_FILE_PATH', 'emails.txt')
 
 
 def send_email(to, subject, body):
@@ -29,15 +27,10 @@ def send_email(to, subject, body):
 
 @shared_task(ignore_result=True)
 def send_daily_reminders():
-    """
-    Finds users who haven't parked in the last 3 days and sends a reminder.
-    """
     print(f"[{datetime.utcnow()}] Running daily reminder task...")
     three_days_ago = datetime.utcnow() - timedelta(days=3)
 
     # Find users who have NOT made a booking in the last 3 days
-
-    # A simpler approach for this project: Find all users.
     all_users = User.query.filter_by(role='user').all()
     for user in all_users:
         last_booking = Booking.query.filter_by(user_id=user.id).order_by(
@@ -52,14 +45,10 @@ def send_daily_reminders():
 
 @shared_task(ignore_result=True)
 def send_monthly_reports():
-    """
-    Generates and sends a monthly activity report to each user.
-    """
     print(f"[{datetime.utcnow()}] Running monthly report task...")
     all_users = User.query.filter_by(role='user').all()
 
     # Logic to define the previous month would go here
-    # For demonstration, we'll just generate a dummy report
     for user in all_users:
         subject = f"Your Parking Summary for " + \
             f"{(datetime.utcnow() - timedelta(days=30)).strftime('%B %Y')}"
@@ -81,9 +70,6 @@ def send_monthly_reports():
 # Set to False so we can track its status if needed
 @shared_task(ignore_result=False)
 def export_user_bookings_to_csv(user_id: int):
-    """
-    Fetches all bookings for a user, generates a CSV, and 'emails' it.
-    """
     print(f"Starting CSV export for user_id: {user_id}")
     user = User.query.get(user_id)
     if not user:

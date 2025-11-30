@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 import {
   BNavbar,
   BNavbarBrand,
@@ -49,7 +50,6 @@ const handleLogout = async () => {
 <template>
   <BNavbar toggleable="lg" class="fixed-top custom-navbar">
     <BNavbarBrand :to="{ name: 'home' }">
-      <!-- Assuming you have a route named 'Home' -->
       <i class="bi bi-p-circle-fill me-2"></i>
       Vehicle Parking System
     </BNavbarBrand>
@@ -182,9 +182,7 @@ const handleLogout = async () => {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(32, 201, 151, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* other styles... */
-
-/* 1. Define the transition duration and easing for enter, leave, and move */
+/* Define the transition duration and easing for enter, leave, and move */
 .nav-link-fade-enter-active,
 .nav-link-fade-leave-active {
   transition: all 0.4s ease;
@@ -193,21 +191,21 @@ const handleLogout = async () => {
   transition: transform 0.4s ease;
 }
 
-/* 2. Define the starting state for entering elements */
+/* Define the starting state for entering elements */
 .nav-link-fade-enter-from {
   opacity: 0;
   transform: translateX(-20px);
 }
 
-/* 3. Define the ending state for leaving elements */
+/* Define the ending state for leaving elements */
 .nav-link-fade-leave-to {
   opacity: 0;
   transform: translateX(20px);
 }
 
-/* 4. Ensure leaving elements don't disrupt layout */
+/* Ensure leaving elements don't disrupt layout */
 .nav-link-fade-leave-active {
   position: absolute;
 }
 </style>
- 
+

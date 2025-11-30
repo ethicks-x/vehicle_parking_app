@@ -11,7 +11,7 @@ import os
 fake = Faker()
 
 # Configuration
-NUM_USERS = 25
+NUM_USERS = 20
 NUM_LOTS = 10
 MAX_NUM_PAST_BOOKINGS_PER_USER = 10
 
@@ -22,7 +22,6 @@ seperator = "=" * 25
 
 
 def log(message, group, only_log=False):
-    """Utility function to log messages in terminal And store them in a global string."""
     global logged_str, prev_group
 
     if group == prev_group:
@@ -32,18 +31,16 @@ def log(message, group, only_log=False):
         prev_group = group
 
     if not only_log:
-        print(message)  # Print to console for immediate feedback
+        print(message)
 
 
 def generate_random_time(start_date, end_date):
-    """Generates a random datetime between two datetimes."""
     time_diff = end_date - start_date
     random_seconds = random.randint(0, int(time_diff.total_seconds()))
     return start_date + timedelta(seconds=random_seconds)
 
 
 def seed_data():
-    """Main function to seed the database."""
     # The 'with app.app_context()' is crucial. It makes the Flask application
     # context available, so we can access extensions like SQLAlchemy (db).
     with app.app_context():
@@ -56,9 +53,9 @@ def seed_data():
         db.session.commit()
         log("Old data deleted.", "Database Cleanup")
 
-        # 1. Create Users
+        # Create Users
         log(f"Creating {NUM_USERS} users...", "User Creation")
-        create_admin_user()  # Ensure admin user is created first
+        create_admin_user()
 
         users = []
         for _ in range(NUM_USERS):
@@ -69,7 +66,7 @@ def seed_data():
                 pin_code=fake.postcode()
             )
             # Set a common password for all test users
-            user.set_password('password123')
+            user.set_password('user123')
             users.append(user)
 
             # Log the creation of each user
@@ -83,7 +80,7 @@ def seed_data():
         users = User.query.filter(User.role == 'user').all()
         log("Users created.", "User Creation")
 
-        # 2. Create Parking Lots and Spots
+        # Create Parking Lots and Spots
         log(f"Creating {NUM_LOTS} parking lots...", "Parking Lot Creation")
         lots = []
         for i in range(NUM_LOTS):
@@ -121,7 +118,7 @@ def seed_data():
         # Re-query all spots to get their IDs
         all_spots = ParkingSpot.query.all()
 
-        # 3. Create Past Bookings
+        # Create Past Bookings
         log("Creating past bookings...", "Booking Creation")
         past_bookings = []
         now = datetime.utcnow()
@@ -133,10 +130,10 @@ def seed_data():
                 available_spots = [
                     s for s in all_spots if s.status == 'Available']
                 if not available_spots:
-                    continue  # Skip if no spots are left
+                    continue
 
                 spot = random.choice(available_spots)
-                spot.status = 'Occupied'  # Temporarily mark as occupied
+                spot.status = 'Occupied'
 
                 # Create realistic, time-relative past dates
                 end_time = generate_random_time(
@@ -169,7 +166,7 @@ def seed_data():
         db.session.commit()
         log("Past bookings created.", "Booking Creation")
 
-        # 4. Create Current (Reserved and Occupied) Bookings
+        # Create Current (Reserved and Occupied) Bookings
         log("Creating current reserved and occupied bookings...", "Booking Creation")
 
         available_spots = [s for s in all_spots if s.status == 'Available']

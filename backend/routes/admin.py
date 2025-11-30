@@ -13,9 +13,6 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 @admin_required()
 # @cache(minutes=5)
 def get_all_users():
-    """
-    Fetches a list of all non-admin users with aggregated booking statistics.
-    """
     try:
         # EFFICIENT AGGREGATION QUERY
         # This subquery calculates the total amount spent and counts for each user.
@@ -56,7 +53,7 @@ def get_all_users():
 
                 "totalBookings": total_bookings,
                 "activeBookings": active_bookings,
-                "totalSpent": float(total_spent)  # Ensure it's a float
+                "totalSpent": float(total_spent)
             })
 
         return jsonify(results), 200
@@ -70,10 +67,6 @@ def get_all_users():
 @admin_required()
 # @cache(minutes=5)
 def get_all_lots():
-    """
-    Fetches all parking lots with detailed spot information.
-    This is designed to provide all data needed for the dashboard view in one call.
-    """
     try:
         lots = ParkingLot.query.order_by(ParkingLot.id).all()
         results = []
@@ -106,12 +99,8 @@ def get_all_lots():
 @bp.route("/lots", methods=["POST"])
 @admin_required()
 def add_parking_lot():
-    """
-    Creates a new parking lot and automatically generates its parking spots.
-    """
     data = request.get_json()
 
-    # Validation
     required_fields = ['name', 'address',
                        'pin_code', 'price_per_hour', 'total_spots']
     if not all(field in data for field in required_fields):
@@ -122,7 +111,6 @@ def add_parking_lot():
 
     # Database Transaction
     try:
-        # 1. Create the ParkingLot
         new_lot = ParkingLot(
             name=data['name'],
             address=data['address'],
@@ -155,10 +143,6 @@ def add_parking_lot():
 @bp.route("/lots/<int:lot_id>", methods=["PUT"])
 @admin_required()
 def edit_parking_lot(lot_id):
-    """
-    Updates the details of a specific parking lot.
-    The number of spots cannot be changed.
-    """
     lot = ParkingLot.query.get_or_404(lot_id)
     data = request.get_json()
 
@@ -221,9 +205,6 @@ def edit_parking_lot(lot_id):
 @bp.route("/lots/<int:lot_id>", methods=["DELETE"])
 @admin_required()
 def delete_parking_lot(lot_id):
-    """
-    Deletes a parking lot only if all of its spots are available.
-    """
     lot = ParkingLot.query.get_or_404(lot_id)
 
     # Validation: Check if any spots are occupied
@@ -246,9 +227,6 @@ def delete_parking_lot(lot_id):
 @bp.route("/spots/<int:spot_id>", methods=["DELETE"])
 @admin_required()
 def delete_parking_spot(spot_id):
-    """
-    Deletes a specific parking spot if it is available.
-    """
     spot = ParkingSpot.query.get_or_404(spot_id)
 
     # Validation: Check if the spot is occupied
@@ -271,7 +249,7 @@ def delete_parking_spot(spot_id):
 @cache(minutes=5)
 def get_admin_summary():
 
-    # 1. KPI Cards Data
+    # KPI Cards Data
     total_lots = db.session.query(func.count(ParkingLot.id)).scalar()
     total_users = db.session.query(func.count(User.id)).filter(
         User.role == 'user').scalar()
@@ -285,7 +263,7 @@ def get_admin_summary():
     total_revenue = db.session.query(func.coalesce(
         func.sum(Booking.total_cost), 0)).scalar()
 
-    # 2. Revenue Over Time (Last 30 Days)
+    # Revenue Over Time (Last 30 Days)
     thirty_days_ago = datetime.utcnow() - timedelta(days=30)
     daily_revenue = Booking.query.filter(Booking.release_time >= thirty_days_ago)\
         .with_entities(
@@ -293,7 +271,7 @@ def get_admin_summary():
             func.sum(Booking.total_cost).label('total')
     ).group_by('day').order_by('day').all()
 
-    # 3. Top 5 Most Active Lots (by recent bookings)
+    # Top 5 Most Active Lots (by recent bookings)
     top_lots = db.session.query(
         ParkingLot,
         func.count(Booking.id).label('booking_count')
@@ -310,7 +288,7 @@ def get_admin_summary():
         'booking_count': count
     } for lot, count in top_lots]
 
-    # 4. Occupancy by Lot
+    # Occupancy by Lot
     occupancy_data = db.session.query(
         ParkingLot.name,
         func.count(ParkingSpot.id).filter(ParkingSpot.status.in_(
@@ -341,17 +319,11 @@ def get_admin_summary():
 @admin_required()
 @cache(minutes=5)
 def admin_search():
-    """
-    A unified search endpoint for admins.
-    Accepts two query parameters:
-    - 'type': one of ['lot', 'user', 'vehicle']
-    - 'q': the search query string
-    """
     search_type = request.args.get('type', 'lot')
     query = request.args.get('q', '').strip()
 
     if not query:
-        return jsonify([])  # Return empty list if query is empty
+        return jsonify([])
 
     results = []
 
@@ -374,7 +346,6 @@ def admin_search():
                 results.append({
                     'id': lot.id, 'name': lot.name, 'total_spots': lot.total_spots,
                     'occupied_spots_count': occupied_count, 'spots': spots_data, 'address': lot.address,
-                    # Add other fields needed by ParkingLotCard
                 })
 
         elif search_type == 'user':
@@ -384,7 +355,7 @@ def admin_search():
                     User.full_name.ilike(f"%{query}%"),
                     User.email.ilike(f"%{query}%")
                 ),
-                User.role == 'user'  # Exclude admin
+                User.role == 'user'
             ).all()
             # We can reuse the same data structure as the Admin Users page
             for user in users:

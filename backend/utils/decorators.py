@@ -6,9 +6,7 @@ from datetime import timedelta
 
 
 def admin_required():
-    """
-    A custom decorator that verifies the JWT is present and the user's role is 'admin'.
-    """
+    # A custom decorator that verifies the JWT is present and the user's role is 'admin'.
     def wrapper(fn):
         @wraps(fn)
         def decorator(*args, **kwargs):
@@ -28,21 +26,17 @@ def admin_required():
 
 
 def cache(minutes=5):
-    """
-    A decorator to cache the result of a Flask route in Redis.
-    The cache key is generated from the route's path and query string.
-    """
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            # 1. Get the Redis client from the Flask app context
+            # Get the Redis client from the Flask app context
             redis_client = current_app.redis_client
 
-            # 2. Generate a unique cache key for this specific request
+            # Generate a unique cache key for this specific request
             # This ensures that '/api/lots' and '/api/lots?page=2' have different caches
             cache_key = request.full_path
 
-            # 3. Try to get the cached result from Redis
+            # Try to get the cached result from Redis
             try:
                 cached_result = redis_client.get(cache_key)
             except Exception as e:
@@ -51,14 +45,14 @@ def cache(minutes=5):
                 print(f"Redis Error: Could not get from cache. {e}")
                 cached_result = None
 
-            # 4. If a cached result exists (cache hit)
+            # If a cached result exists (cache hit)
             if cached_result:
                 print(f"CACHE HIT for key: {cache_key}")
                 # The result is stored as a JSON string, so we parse it back
                 # and return it as a Flask JSON response.
                 return jsonify(json.loads(cached_result))
 
-            # 5. If no cached result exists (cache miss)
+            # If no cached result exists (cache miss)
             print(f"CACHE MISS for key: {cache_key}")
             # Execute the original route function to get the fresh data
             fresh_result = f(*args, **kwargs)
@@ -76,7 +70,7 @@ def cache(minutes=5):
                 # If the response is not JSON, we can't cache it. Just return it.
                 return fresh_result
 
-            # 6. Store the fresh result in Redis with an expiration time
+            # Store the fresh result in Redis with an expiration time
             try:
                 # `ex` is the expiration time in seconds
                 redis_client.setex(cache_key, int(timedelta(

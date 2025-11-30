@@ -127,7 +127,7 @@
     <!-- Footer -->
     <footer class="text-center py-4">
       <b-container>
-        <p class="mb-0">&copy; 2025 Vehicle Parking System. All Rights Reserved.</p>
+        <p class="mb-0">&copy; 2025 Vehicle Parking System - V2. Made by Sinchan.</p>
       </b-container>
     </footer>
   </div>
@@ -151,7 +151,6 @@
   overflow-x: hidden;
 }
 
-/* Section Styling */
 .hero-section,
 .features-section,
 .cta-section {
@@ -183,7 +182,6 @@
   margin: 0 auto 2rem auto;
 }
 
-/* Hero Section */
 .hero-title {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 700;
@@ -221,7 +219,6 @@
   }
 }
 
-/* Features Section */
 .feature-card {
   background: var(--card-bg);
   padding: 40px 30px;
@@ -255,7 +252,6 @@
   color: var(--text-muted);
 }
 
-/* Buttons */
 .btn-custom {
   padding: 12px 30px;
   border-radius: 50px;
@@ -274,11 +270,10 @@
   filter: brightness(1.15);
 }
 
-/* Footer */
 footer {
   background-color: rgba(0, 0, 0, 0.2);
   color: var(--text-muted);
   font-size: 0.9rem;
 }
 </style>
- 
+

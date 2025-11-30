@@ -14,9 +14,6 @@ bp = Blueprint("user", __name__)
 @bp.route("/profile", methods=["GET"])
 @jwt_required()
 def get_profile():
-    """
-    Fetches the profile and aggregated stats for the currently logged-in user.
-    """
     try:
         user_id = int(get_jwt_identity())
         user = User.query.get_or_404(user_id)
@@ -87,11 +84,6 @@ def update_profile():
 @jwt_required()
 # @cache(minutes=5)
 def get_all_lots_for_user():
-    """
-    Fetches a simplified list of all parking lots for the user dashboard.
-    This route is optimized to not send the full spot list, only the counts
-    needed for the user to make a decision.
-    """
     try:
         # Order by name for a consistent default list on the frontend
         lots = ParkingLot.query.order_by(ParkingLot.name).all()
@@ -133,19 +125,19 @@ def get_user_bookings():
     try:
         user_id = int(get_jwt_identity())
 
-        # 1. Get all bookings for the user
+        # Get all bookings for the user
         user_bookings = Booking.query.filter_by(
             user_id=user_id).order_by(Booking.booking_time.desc()).all()
         if not user_bookings:
             return jsonify([]), 200
 
-        # 2. Collect all unique spot and lot IDs needed
+        # Collect all unique spot and lot IDs needed
         spot_ids = {b.spot_id for b in user_bookings}
         spots = ParkingSpot.query.filter(ParkingSpot.id.in_(spot_ids)).all()
         lot_ids = {s.lot_id for s in spots}
         lots = ParkingLot.query.filter(ParkingLot.id.in_(lot_ids)).all()
 
-        # 3. Create mapping dictionaries for fast lookups
+        # Create mapping dictionaries for fast lookups
         spots_map = {s.id: s for s in spots}
         lots_map = {l.id: l for l in lots}
 
@@ -154,7 +146,7 @@ def get_user_bookings():
         for booking in user_bookings:
             spot = spots_map.get(booking.spot_id)
             if not spot:
-                continue  # Should not happen, but a good safeguard
+                continue
 
             lot = lots_map.get(spot.lot_id)
             if not lot:
@@ -181,7 +173,6 @@ def get_user_bookings():
         return jsonify(results), 200
 
     except Exception as e:
-        # In a real app, you would log this error.
         print(f"Error fetching user bookings: {e}")
         return jsonify({"message": "An error occurred while fetching your bookings.", "err": e}), 500
 
@@ -194,7 +185,6 @@ def get_booking_details(spot_id):
     Fetches detailed information about a specific booking for the authenticated user.
     """
     try:
-        # Get the booking by spot_id
         booking = Booking.query.filter_by(spot_id=spot_id).first()
 
         spot = ParkingSpot.query.get(spot_id)
@@ -202,7 +192,6 @@ def get_booking_details(spot_id):
         if not booking or not spot:
             return jsonify({"message": "Booking not found."}), 404
 
-        # Format the response
         response = {
             'id': booking.id,
             'user_id': booking.user_id,
@@ -231,7 +220,6 @@ def get_booking_details(spot_id):
 
         return jsonify(response), 200
     except Exception as e:
-        # In a real app, you would log this error.
         print(f"Error fetching booking details for spot {spot_id}: {e}")
         return jsonify({"message": "An error occurred while fetching booking details.", "err": f"{e}"}), 500
 
@@ -272,15 +260,12 @@ def park_car(booking_id):
     booking = Booking.query.get_or_404(booking_id)
     spot = ParkingSpot.query.get_or_404(booking.spot_id)
 
-    # Security check: ensure the booking belongs to the user
     if booking.user_id != user_id:
         return jsonify({"message": "Unauthorized"}), 403
 
-    # Logic check: can only park if the spot is 'Reserved'
     if spot.status != 'Occupied' or booking.parking_time is not None:
         return jsonify({"message": "This booking is not in a reservable state."}), 400
 
-    # Check if user has any other active parking session with the same vehicle
     active_bookings = Booking.query.filter(
         Booking.user_id == user_id,
         Booking.vehicle_number == booking.vehicle_number,
@@ -311,7 +296,7 @@ def release_spot(booking_id):
     if booking.user_id != user_id:
         return jsonify({"message": "Unauthorized"}), 403
 
-    # Logic check: Spot must be occupied and have a parking_time
+    # Spot must be occupied and have a parking_time
     if spot.status != 'Occupied' or not booking.parking_time:
         return jsonify({"message": "This booking is not active."}), 400
 
@@ -353,7 +338,7 @@ def get_user_summary():
             Booking.release_time.isnot(None)
         )
 
-        # 1. KPI Cards Data (No change needed here as it only uses Booking)
+        # KPI Cards Data (No change needed here as it only uses Booking)
         kpi_stats = base_query.with_entities(
             func.count(Booking.id).label('total_sessions'),
             func.coalesce(func.sum(Booking.total_cost),
@@ -365,7 +350,7 @@ def get_user_summary():
             kpi_stats = {'total_sessions': 0,
                          'total_spent': 0, 'avg_cost_per_session': 0}
 
-        # 2. Most Used Lot (Refactored with explicit joins)
+        # Most Used Lot (Refactored with explicit joins)
         favorite_lot_query = base_query.join(
             ParkingSpot, Booking.spot_id == ParkingSpot.id
         ).join(
@@ -379,7 +364,7 @@ def get_user_summary():
             desc('visit_count')
         ).first()
 
-        # 3. Spending Per Month (No change needed)
+        # Spending Per Month (No change needed)
         six_months_ago = datetime.utcnow() - relativedelta(months=6)
         monthly_spending = base_query.filter(Booking.release_time >= six_months_ago)\
             .with_entities(
@@ -387,7 +372,7 @@ def get_user_summary():
                 func.sum(Booking.total_cost).label('total')
         ).group_by('month').order_by('month').all()
 
-        # 4. Parking by Day of Week (No change needed)
+        # Parking by Day of Week (No change needed)
         day_of_week_map = {0: 'Sun', 1: 'Mon', 2: 'Tue',
                            3: 'Wed', 4: 'Thu', 5: 'Fri', 6: 'Sat'}
         day_of_week_stats = base_query\

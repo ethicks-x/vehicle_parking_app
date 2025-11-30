@@ -12,19 +12,15 @@ bp = Blueprint("auth", __name__)
 
 
 def create_admin_user():
-    """
-    Function to create an admin user if it doesn't exist.
-    This is useful for setting up the initial admin user.
-    """
-    admin_email = "admin@nexul.in"
-    admin_password = "admin@123"  # Change this to a secure password in production
+    admin_email = "admin@sinu.in"
+    admin_password = "pomi"  # Change this to a secure password in production
     admin_user = User.query.filter_by(email=admin_email).first()
     if not admin_user:
         try:
             new_admin = User(
                 email=admin_email,
-                full_name="Admin User",
-                address="123 Admin St",
+                full_name="Admin Sinu",
+                address="123 ABC St",
                 pin_code="123456",
                 role='admin'  # Set the role to 'admin'
             )
@@ -41,9 +37,6 @@ def create_admin_user():
 
 @bp.route("/register", methods=["POST"])
 def register_user():
-    """
-    Endpoint for user registration.
-    """
     data = request.get_json()
 
     # Basic Validation
@@ -52,7 +45,6 @@ def register_user():
 
     # Check if user already exists
     if User.query.filter_by(email=data.get('email')).first():
-        # 409 Conflict
         return jsonify({"message": "This email is already registered"}), 409
 
     # Create New User
@@ -62,7 +54,7 @@ def register_user():
             full_name=data.get('full_name'),
             address=data.get('address'),
             pin_code=data.get('pin_code'),
-            role='user'  # Regular users can only register as 'user'
+            role='user'
         )
         new_user.set_password(data.get('password'))  # Hash the password
 
@@ -78,14 +70,9 @@ def register_user():
 
 @bp.route("/login", methods=["POST"])
 def login_user():
-    """
-    Endpoint for user and admin login.
-    Returns a JWT access token upon successful authentication.
-    """
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    # Get rememberMe flag from frontend
     remember_me = data.get('rememberMe', False)
 
     print(f"Login attempt for email: {email}, rememberMe: {remember_me}")
@@ -100,7 +87,6 @@ def login_user():
     # Authenticate User
     # Check if user exists and password is correct
     if not user or not user.check_password(password):
-        # 401 Unauthorized
         return jsonify({"message": "Invalid email or password"}), 401
 
     # Create JWT Token
@@ -132,8 +118,6 @@ def login_user():
             user=user_data
         ), 200
 
-# Add a logout route to unset the cookie
-
 
 @bp.route("/logout", methods=["POST"])
 def logout_user():
@@ -141,4 +125,4 @@ def logout_user():
     response = jsonify({"message": "Logout successful"})
     unset_jwt_cookies(response)
     return response, 200
- 
+

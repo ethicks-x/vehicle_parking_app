@@ -92,7 +92,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.requiresAuth
   const requiredRole = to.meta.role
 
-  // 1. If route requires authentication
+  // If route requires authentication
   if (requiresAuth) {
     if (!isAuthenticated) {
       // User is not logged in, redirect to login page
@@ -101,7 +101,6 @@ router.beforeEach((to, from, next) => {
     // User is logged in, check for role
     if (requiredRole && authState.user?.role !== requiredRole) {
       // User does not have the required role. Redirect them.
-      // A good practice is to send them to their own dashboard or a 'Forbidden' page.
       if (authState.user?.role === 'admin') {
         return next({ name: 'AdminDashboard' })
       }
@@ -110,7 +109,7 @@ router.beforeEach((to, from, next) => {
     // User is authenticated and has the correct role (or no specific role is needed)
     return next()
   }
-  // 2. If route is for guests only (like the login page)
+  // If route is for guests only (like the login page)
   else if (to.meta.guestOnly && isAuthenticated) {
     // User is already logged in, redirect them away from the login page.
     if (authState.user?.role === 'admin') {
@@ -118,10 +117,10 @@ router.beforeEach((to, from, next) => {
     }
     return next({ name: 'UserDashboard' })
   } else {
-    // 3. For all other public routes
+    // For all other public routes
     return next()
   }
 })
 
 export default router
- 
+
